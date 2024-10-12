@@ -42,16 +42,20 @@ public class Account {
     }
 
     public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.phoneNumber = this.phoneNumber;
     }
 
     public void depositFund(int amount){
-        this.accountBalance = amount;
+        this.accountBalance += amount;
     }
-    public int withdrawBalance(){
-        if(this.accountBalance <= 0)
+    public int withdrawBalance(int amount){
+        this.accountBalance -= amount;
+        if(this.accountBalance <= 0) {
+            this.accountBalance = 0;
+            System.out.println("Not sufficient balance");
             return 0;
-        return accountBalance;
+        }
+        return this.accountBalance;
     }
 
     @Override

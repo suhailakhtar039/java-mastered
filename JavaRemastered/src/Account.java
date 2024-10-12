@@ -45,6 +45,15 @@ public class Account {
         this.phoneNumber = phoneNumber;
     }
 
+    public void depositFund(int amount){
+        this.accountBalance = amount;
+    }
+    public int withdrawBalance(){
+        if(this.accountBalance <= 0)
+            return 0;
+        return accountBalance;
+    }
+
     @Override
     public String toString() {
         return "Account{" +

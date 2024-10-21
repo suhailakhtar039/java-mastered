@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 
 public class Lambda {
     public static void main(String[] args) {
@@ -38,7 +40,27 @@ public class Lambda {
 
         double[] firstPoint = coordinates.get(0);
         processPoint(firstPoint[0], firstPoint[1], p1);
+        System.out.println("-".repeat(10) + " starting predicate");
 
+
+        Consumer<String> consumer = (String s) -> {
+            String[] parts = s.split(",");
+            System.out.println(Arrays.toString(parts));
+        };
+
+        String s = "123456789";
+
+        UnaryOperator<String> function = (String source) -> {
+            StringBuilder sb = new StringBuilder("");
+            int n = source.length();
+            for(int i = 0; i<n; i++){
+                if(i%2 == 1)
+                    sb.append(source.charAt(i));
+            }
+            return sb.toString();
+        };
+        String ans = function.apply(s);
+        System.out.println(ans);
     }
 
     public static <T> T Calculator(BinaryOperator<T> function, T value1, T value2) {
@@ -47,7 +69,9 @@ public class Lambda {
         return result;
     }
 
-    public static <T> void processPoint(T t1, T t2, BiConsumer<T,T> consumer){
+    public static <T> void processPoint(T t1, T t2, BiConsumer<T, T> consumer) {
         consumer.accept(t1, t2);
     }
+
+
 }

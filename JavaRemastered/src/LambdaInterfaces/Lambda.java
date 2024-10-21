@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 
 public class Lambda {
     public static void main(String[] args) {
@@ -61,6 +58,12 @@ public class Lambda {
         };
         String ans = function.apply(s);
         System.out.println(ans);
+
+        System.out.println("-".repeat(10));
+        Supplier<String> supplier = () -> "I Love Java";
+        String res = supplier.get();
+        System.out.println(res);
+
     }
 
     public static <T> T Calculator(BinaryOperator<T> function, T value1, T value2) {

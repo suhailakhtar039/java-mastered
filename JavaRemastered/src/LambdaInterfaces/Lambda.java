@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 
 public class Lambda {
@@ -32,11 +33,21 @@ public class Lambda {
 
         coordinates.forEach(s -> System.out.println(Arrays.toString(s)));
 
+        System.out.println("_".repeat(10));
+        BiConsumer<Double, Double> p1 = (latitude, longitude) -> System.out.println("Latitude = " + latitude + " Longitude = " + longitude);
+
+        double[] firstPoint = coordinates.get(0);
+        processPoint(firstPoint[0], firstPoint[1], p1);
+
     }
 
     public static <T> T Calculator(BinaryOperator<T> function, T value1, T value2) {
         T result = function.apply(value1, value2);
         System.out.println("Result of operation = " + result);
         return result;
+    }
+
+    public static <T> void processPoint(T t1, T t2, BiConsumer<T,T> consumer){
+        consumer.accept(t1, t2);
     }
 }

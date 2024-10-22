@@ -87,6 +87,7 @@ public class StreamPerformance {
                 .forEach(s -> System.out.print(s + " "));
         System.out.println();
 
+
     }
 
     public static boolean isPrime(int n) {

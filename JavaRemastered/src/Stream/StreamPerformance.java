@@ -61,30 +61,38 @@ public class StreamPerformance {
 
         Map<Character, int[]> myMap = new LinkedHashMap<>();
         int bingoIndex = 1;
-        for(char c : "BINGO".toCharArray()){
+        for (char c : "BINGO".toCharArray()) {
             int[] numbers = new int[15];
             int labelNo = bingoIndex;
-            Arrays.setAll(numbers, i->i + labelNo);
+            Arrays.setAll(numbers, i -> i + labelNo);
             myMap.put(c, numbers);
             bingoIndex += 15;
         }
 
         myMap.entrySet()
                 .stream()
-                .map(e -> e.getKey() + " has range: " + e.getValue()[0] + " - " + e.getValue()[e.getValue().length-1])
+                .map(e -> e.getKey() + " has range: " + e.getValue()[0] + " - " + e.getValue()[e.getValue().length - 1])
                 .forEach(System.out::println);
 
         Random random = new Random();
-        Stream.generate(()->random.nextInt(2))
+        Stream.generate(() -> random.nextInt(2))
                 .limit(10)
                 .forEach(s -> System.out.print(s + " "));
         System.out.println();
 
 
-        IntStream.iterate(1, n -> n+1)
+        IntStream.iterate(1, n -> n + 1)
+                .filter(StreamPerformance::isPrime)
                 .limit(20)
                 .forEach(s -> System.out.print(s + " "));
         System.out.println();
 
+    }
+
+    public static boolean isPrime(int n) {
+        if (n <= 1) return false;
+        for (int i = 2; i * i <= n; i++)
+            if (n % i == 0) return false;
+        return true;
     }
 }

@@ -73,5 +73,12 @@ public class StreamPerformance {
                 .map(e -> e.getKey() + " has range: " + e.getValue()[0] + " - " + e.getValue()[e.getValue().length-1])
                 .forEach(System.out::println);
 
+        Random random = new Random();
+        Stream.generate(()->random.nextInt(2))
+                .limit(10)
+                .forEach(s -> System.out.print(s + " "));
+
+        System.out.println();
+
     }
 }

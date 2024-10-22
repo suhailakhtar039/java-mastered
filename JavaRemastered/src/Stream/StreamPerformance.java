@@ -1,9 +1,7 @@
 package Stream;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class StreamPerformance {
     public static void main(String[] args) {
@@ -39,13 +37,22 @@ public class StreamPerformance {
         System.out.println();
         System.out.println("-".repeat(20));
 
-        bingoPool.stream()
+        Stream<String> sorted = bingoPool.stream()
                 .limit(15)
                 .filter(s -> s.indexOf("G") == 0 || s.indexOf("O") == 0)
-                .sorted()
-                .forEach(s -> System.out.print(s + " "));
+                .map(s -> s.charAt(0) + "-" + s.substring(1))
+                .sorted();
 
+        sorted.forEach(s -> System.out.print(s + " "));
         System.out.println();
+        String[] strings = {"One", "Two", "Three"};
+        Arrays.stream(strings)
+                .sorted(Comparator.reverseOrder())
+                .forEach(System.out::println);
+
+        Stream.of("six", "five", "four")
+                .map(String::toUpperCase)
+                .forEach(System.out::println);
 
     }
 }

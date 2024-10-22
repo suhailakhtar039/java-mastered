@@ -1,6 +1,7 @@
 package Stream;
 
 import java.util.*;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class StreamPerformance {
@@ -77,7 +78,12 @@ public class StreamPerformance {
         Stream.generate(()->random.nextInt(2))
                 .limit(10)
                 .forEach(s -> System.out.print(s + " "));
+        System.out.println();
 
+
+        IntStream.iterate(1, n -> n+1)
+                .limit(20)
+                .forEach(s -> System.out.print(s + " "));
         System.out.println();
 
     }

@@ -6,8 +6,8 @@ public class StudentEngagementStatistics {
 
     public static void main(String[] args) {
 
-        Course pymc= new Course("PYMC", "Python Masterclass");
-        Course jmc= new Course("JMC", "Java Masterclass");
+        Course pymc = new Course("PYMC", "Python Masterclass");
+        Course jmc = new Course("JMC", "Java Masterclass");
 //        Student tim = new Student("AU", 2019, 30, "M",
 //                true, jmc, pymc);
 //        System.out.println(tim);
@@ -16,9 +16,16 @@ public class StudentEngagementStatistics {
 //        tim.watchLecture("PYMC", 7, 7, 2020);
 //        System.out.println(tim);
 
-        Stream.generate(() -> Student.getRandomStudent(jmc, pymc))
-                .limit(10)
-                .forEach(System.out::println);
+        // Stream.generate(() -> Student.getRandomStudent(jmc, pymc))
+        //         .limit(10)
+        //         .forEach(System.out::println);
+
+        // 2nd challenge
+        Stream<Student> limit = Stream.generate(
+                        () -> Student.getRandomStudent(jmc, pymc))
+                .limit(1000);
+
+
 
     }
 }

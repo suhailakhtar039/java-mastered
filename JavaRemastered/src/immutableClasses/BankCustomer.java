@@ -1,6 +1,7 @@
 package immutableClasses;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BankCustomer {
@@ -10,12 +11,27 @@ public class BankCustomer {
     private final int customerId;
     private final List<BankAccount> accounts = new ArrayList<>();
 
-    public BankCustomer(String name, double checkingAmount, double savingAmount){
+    public BankCustomer(String name, double checkingAmount, double savingAmount) {
         this.name = name;
         this.customerId = lastCustomerId++;
         accounts.add(new BankAccount(BankAccount.AccountType.CHECKING, checkingAmount));
         accounts.add(new BankAccount(BankAccount.AccountType.SAVINGS, savingAmount));
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public List<BankAccount> getAccounts() {
+        return accounts;
+    }
+
+    @Override
+    public String toString() {
+        String[] accountStrings = new String[accounts.size()];
+        Arrays.setAll(accountStrings, i -> accounts.get(i).toString());
+
+        return "Customer: %s (id:%015d)%n\t%s%n".formatted(name, customerId, String.join("\n\t", accountStrings));
+    }
 }
 

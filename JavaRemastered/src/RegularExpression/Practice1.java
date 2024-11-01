@@ -9,9 +9,9 @@ public class Practice1 {
         String testString = "Anyone can Learn abc's, 123's and any regular expression";
         String replacement = "(-)";
         String[] patterns = {
-                "ab|bc",
-                "[123]",
-                "[A]"
+                "[a-z]",
+                "[0-9]",
+                "[A-Z]"
         };
 
         for (String pattern : patterns) {

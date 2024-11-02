@@ -14,12 +14,15 @@ public class Practice1 {
                 "[aA]ny\\b"
         };
 
-        for (String pattern : patterns) {
-            String output = testString.replaceFirst(pattern, replacement);
-            System.out.println("Pattern: " + pattern + " => " + output);
-        }
+        // for (String pattern : patterns) {
+        //     String output = testString.replaceFirst(pattern, replacement);
+        //     System.out.println("Pattern: " + pattern + " => " + output);
+        // }
 
-
+        // challenge 1
+        String ch1 = "Hello World!";
+        boolean t1 = ch1.matches("Hello World!");
+        System.out.println(t1);
 
     }
 

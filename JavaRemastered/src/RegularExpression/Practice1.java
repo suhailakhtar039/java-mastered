@@ -29,6 +29,11 @@ public class Practice1 {
         // boolean t1 = ch1.matches("[A-Z].*\\.");
         // System.out.println(t1);
 
+        //challenge 3
+        String ch1 = "The bike is red.";
+        // ch1 = "Hello, friends and family: Welcome!";
+        boolean t1 = ch1.matches("[A-Z].+[.?!]");
+        System.out.println(t1);
 
     }
 

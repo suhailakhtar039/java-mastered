@@ -20,9 +20,15 @@ public class Practice1 {
         // }
 
         // challenge 1
-        String ch1 = "Hello World!";
-        boolean t1 = ch1.matches("Hello World!");
-        System.out.println(t1);
+        // String ch1 = "Hello World.";
+        // boolean t1 = ch1.matches("Hello World!");
+        // System.out.println(t1);
+
+        // challenge 2
+        // String ch1 = "Hello world.";
+        // boolean t1 = ch1.matches("[A-Z].*\\.");
+        // System.out.println(t1);
+
 
     }
 

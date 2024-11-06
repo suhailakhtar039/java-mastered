@@ -11,6 +11,9 @@ public class Example {
         thread.setPriority(Thread.MAX_PRIORITY);
         printThreadState(thread);
 
+        CustomThread customThread = new CustomThread();
+        customThread.start();
+
     }
 
     public static void printThreadState(Thread thread){

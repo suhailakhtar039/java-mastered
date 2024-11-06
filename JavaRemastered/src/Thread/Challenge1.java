@@ -2,21 +2,21 @@ package Thread;
 
 public class Challenge1 {
     public static void main(String[] args) {
-        Thread even = new Thread(() -> {
-            for (int i = 2; i <= 10; i += 2) {
-                System.out.println("EvenThread - " + i);
-                try {
-                    Thread.sleep(1000);
-                }catch (InterruptedException e){
-                    System.out.println("Even thread interrupted");
-                    break;
-                }
-            }
-        });
+        // Thread evenThread = new Thread(() -> {
+        //     for (int i = 2; i <= 10; i += 2) {
+        //         System.out.println("EvenThread - " + i);
+        //         try {
+        //             Thread.sleep(1000);
+        //         }catch (InterruptedException e){
+        //             System.out.println("Even thread interrupted");
+        //             break;
+        //         }
+        //     }
+        // });
 
         OddThread oddThread = new OddThread();
-
-        even.start();
+        Thread evenThread = new Thread(new EvenThread());
+        evenThread.start();
         oddThread.start();
 
         try{
@@ -24,10 +24,24 @@ public class Challenge1 {
         }catch (InterruptedException e){
             e.printStackTrace();
         }
-        oddThread.interrupt();
+        // evenThread.interrupt();
     }
 }
+class EvenThread implements Runnable{
 
+    @Override
+    public void run() {
+        for (int i = 2; i <= 10; i += 2) {
+            System.out.println("Even Thread: " + i);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println("Even thread interrupted!");
+                break;
+            }
+        }
+    }
+}
 class OddThread extends Thread {
     @Override
     public void run() {

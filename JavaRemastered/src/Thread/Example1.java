@@ -6,44 +6,72 @@ public class Example1 {
         try {
             System.out.println("Main thread paused for one second");
             Thread.sleep(1000);
-        }catch (InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        Thread thread = new Thread(()->{
+        Thread thread = new Thread(() -> {
             String tname = Thread.currentThread().getName();
             System.out.println(tname + " should take 10 dots to run");
-            for(int i = 0; i<10; i++){
+            for (int i = 0; i < 10; i++) {
                 System.out.println(" . ");
                 try {
-                    Thread.sleep(400);
-                    System.out.println("A. state = " + Thread.currentThread().getState());
+                    Thread.sleep(500);
+                    // System.out.println("A. state = " + Thread.currentThread().getState());
                 } catch (InterruptedException e) {
                     System.out.println("whoops! " + tname + " got interrupted");
-                    System.out.println("A1. state = " + Thread.currentThread().getState());
+                    Thread.currentThread().interrupt();
+                    // System.out.println("A1. state = " + Thread.currentThread().getState());
                     return;
                 }
             }
             System.out.println(tname + " completed");
         });
 
-        System.out.println(thread.getName() + " starting");
-        thread.start();
-
-        long now = System.currentTimeMillis();
-        while(thread.isAlive()){
-            System.out.println("Waiting for thread to complete");
+        Thread installThread = new Thread(() -> {
             try {
-                Thread.sleep(1000);
-                System.out.println("B. state = " + thread.getState());
-                if(System.currentTimeMillis() - now > 2000)
-                    thread.interrupt();
+                for (int i = 0; i < 3; i++) {
+                    Thread.sleep(250);
+                    System.out.println("Installation step " + (i + 1) + " is completed.");
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }, "InstallThread");
+
+        Thread threadMonitor = new Thread(() -> {
+            long now = System.currentTimeMillis();
+            while (thread.isAlive()) {
+                System.out.println("Waiting for thread to complete");
+                try {
+                    Thread.sleep(1000);
+                    // System.out.println("B. state = " + thread.getState());
+                    if (System.currentTimeMillis() - now > 8000)
+                        thread.interrupt();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        System.out.println(thread.getName() + " starting");
+        thread.start();
+        threadMonitor.start();
+
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
 
-        System.out.println("C. state = " + thread.getState());
+        if (!thread.isInterrupted())
+            installThread.start();
+        else {
+            System.out.println("Previous thread was interrupted, " + installThread.getName() + " can't run");
+        }
+
+
+        // System.out.println("C. state = " + thread.getState());
 
         // System.out.println("Main thread would continue here");
         // try {

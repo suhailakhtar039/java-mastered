@@ -18,7 +18,7 @@ public class Example1 {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
-                    System.out.println("/n whoops! " + tname + " got interrupted");
+                    System.out.println("whoops! " + tname + " got interrupted");
                     return;
                 }
             }
@@ -28,5 +28,13 @@ public class Example1 {
         System.out.println(thread.getName() + " starting");
         thread.start();
         System.out.println("Main thread would continue here");
+
+        try {
+            Thread.sleep(2000);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        thread.interrupt();
+
     }
 }

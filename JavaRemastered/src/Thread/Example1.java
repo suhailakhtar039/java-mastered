@@ -14,11 +14,13 @@ public class Example1 {
             String tname = Thread.currentThread().getName();
             System.out.println(tname + " should take 10 dots to run");
             for(int i = 0; i<10; i++){
-                System.out.println(".");
+                System.out.println(" . ");
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(400);
+                    System.out.println("A. state = " + Thread.currentThread().getState());
                 } catch (InterruptedException e) {
                     System.out.println("whoops! " + tname + " got interrupted");
+                    System.out.println("A1. state = " + Thread.currentThread().getState());
                     return;
                 }
             }
@@ -27,14 +29,29 @@ public class Example1 {
 
         System.out.println(thread.getName() + " starting");
         thread.start();
-        System.out.println("Main thread would continue here");
 
-        try {
-            Thread.sleep(2000);
-        }catch (InterruptedException e){
-            e.printStackTrace();
+        long now = System.currentTimeMillis();
+        while(thread.isAlive()){
+            System.out.println("Waiting for thread to complete");
+            try {
+                Thread.sleep(1000);
+                System.out.println("B. state = " + thread.getState());
+                if(System.currentTimeMillis() - now > 2000)
+                    thread.interrupt();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        thread.interrupt();
+
+        System.out.println("C. state = " + thread.getState());
+
+        // System.out.println("Main thread would continue here");
+        // try {
+        //     Thread.sleep(2000);
+        // }catch (InterruptedException e){
+        //     e.printStackTrace();
+        // }
+        // thread.interrupt();
 
     }
 }

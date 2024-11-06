@@ -9,6 +9,7 @@ public class Example {
 
         thread.setName("MainGuy");
         thread.setPriority(Thread.MAX_PRIORITY);
+        printThreadState(thread);
 
     }
 

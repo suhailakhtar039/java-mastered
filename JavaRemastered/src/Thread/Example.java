@@ -6,6 +6,10 @@ public class Example {
         System.out.println(thread.getName());
         System.out.println(thread);
         printThreadState(thread);
+
+        thread.setName("MainGuy");
+        thread.setPriority(Thread.MAX_PRIORITY);
+
     }
 
     public static void printThreadState(Thread thread){

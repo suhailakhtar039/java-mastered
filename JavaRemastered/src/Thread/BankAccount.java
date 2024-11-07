@@ -12,9 +12,9 @@ public class BankAccount {
         return balance;
     }
 
-    public void deposit(double amount){
+    public synchronized void deposit(double amount){
         try{
-            Thread.sleep(1000);
+            Thread.sleep(500);
         }catch(InterruptedException e){
             e.printStackTrace();
         }
@@ -25,9 +25,9 @@ public class BankAccount {
 
     }
 
-    public void withdraw(double amount){
+    public synchronized void withdraw(double amount){
         try{
-            Thread.sleep(1000);
+            Thread.sleep(500);
         }catch(InterruptedException e){
             e.printStackTrace();
         }

@@ -14,17 +14,21 @@ public class BankAccount {
         return name;
     }
 
-    public synchronized void setName(String name) {
-        this.name = name;
+    public void setName(String name) {
+        synchronized (this.name){
+            this.name = name;
+            System.out.println("Updated name = " + this.name);
+        }
     }
 
     public double getBalance() {
         return balance;
     }
 
-    public void deposit(double amount) {
+    public synchronized void deposit(double amount) {
         try {
-            Thread.sleep(500);
+            System.out.println("Talking to the teller at the bank...");
+            Thread.sleep(7000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

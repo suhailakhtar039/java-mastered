@@ -41,21 +41,51 @@ class MessageWriter implements Runnable {
     @Override
     public void run() {
         Random random = new Random();
-        String []lines = text.split("\n");
-        for(int i = 0;i<lines.length; i++){
+        String[] lines = text.split("\n");
+        for (int i = 0; i < lines.length; i++) {
             outgoingMessage.write(lines[i]);
-            try{
+            try {
                 Thread.sleep(random.nextInt(500, 2000));
-            }catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 System.out.println("got interrupted");
             }
         }
-        outgoingMessage.write("Finished!");
+        outgoingMessage.write("Finished");
+    }
+}
+
+class MessageReader implements Runnable {
+
+    private MessageRepository incomingMessage;
+
+    public MessageReader(MessageRepository incomingMessage) {
+        this.incomingMessage = incomingMessage;
+    }
+
+    @Override
+    public void run() {
+        Random random = new Random();
+        String latestMessage = "";
+        do {
+            try {
+                Thread.sleep(random.nextInt(500, 2000));
+            } catch (InterruptedException exception) {
+                System.out.println("Error");
+            }
+            latestMessage = incomingMessage.read();
+            System.out.println(latestMessage);
+        } while (!latestMessage.equals("Finished"));
     }
 }
 
 public class CustomerProducer {
     public static void main(String[] args) {
+        MessageRepository messageRepository = new MessageRepository();
 
+        Thread reader = new Thread(new MessageReader(messageRepository));
+        Thread writer = new Thread(new MessageWriter(messageRepository));
+
+        reader.start();
+        writer.start();
     }
 }

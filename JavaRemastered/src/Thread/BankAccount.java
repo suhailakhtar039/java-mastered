@@ -3,9 +3,19 @@ package Thread;
 public class BankAccount {
 
     private double balance;
+    private String name;
 
-    public BankAccount(double balance) {
+    public BankAccount(double balance, String name) {
         this.balance = balance;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public synchronized void setName(String name) {
+        this.name = name;
     }
 
     public double getBalance() {
@@ -18,11 +28,11 @@ public class BankAccount {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        synchronized (this) {
+        // synchronized (this) {
             double origBalance = balance;
             this.balance += amount;
             System.out.printf("STARTING BALANCE: %.0f, DEPOSIT (%.0f): NEW BALANCE = %.0f%n", origBalance, amount, balance);
-        }
+        // }
 
     }
 

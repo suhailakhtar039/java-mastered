@@ -4,6 +4,8 @@ public class BankAccount {
 
     private double balance;
     private String name;
+    private final Object lockName = new Object();
+    private final Object lockBalance = new Object();
 
     public BankAccount(double balance, String name) {
         this.balance = balance;
@@ -15,7 +17,7 @@ public class BankAccount {
     }
 
     public void setName(String name) {
-        synchronized (this.name){
+        synchronized (lockName){
             this.name = name;
             System.out.println("Updated name = " + this.name);
         }
@@ -25,18 +27,18 @@ public class BankAccount {
         return balance;
     }
 
-    public synchronized void deposit(double amount) {
+    public void deposit(double amount) {
         try {
             System.out.println("Talking to the teller at the bank...");
             Thread.sleep(7000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // synchronized (this) {
+        synchronized (lockBalance) {
             double origBalance = balance;
             this.balance += amount;
             System.out.printf("STARTING BALANCE: %.0f, DEPOSIT (%.0f): NEW BALANCE = %.0f%n", origBalance, amount, balance);
-        // }
+        }
 
     }
 

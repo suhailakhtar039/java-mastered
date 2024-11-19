@@ -38,8 +38,17 @@ public class BankAccount {
             double origBalance = balance;
             this.balance += amount;
             System.out.printf("STARTING BALANCE: %.0f, DEPOSIT (%.0f): NEW BALANCE = %.0f%n", origBalance, amount, balance);
+            addPromoDollars(amount);
         }
+    }
 
+    private void addPromoDollars(double amount){
+        if(amount >= 5000){
+            synchronized (lockBalance){
+                System.out.println("Congratulations! You earned a promotional deposit");
+                balance += 25;
+            }
+        }
     }
 
     public synchronized void withdraw(double amount) {

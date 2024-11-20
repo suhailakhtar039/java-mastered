@@ -1,6 +1,7 @@
 package Thread;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -13,33 +14,51 @@ class MessageRepository1 {
 
     public String read() {
 
-        lock.lock();
-        try {
-            while (!hasMessage) {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+        if(lock.tryLock()) {
+            try {
+                while (!hasMessage) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
+                hasMessage = false;
+            } finally {
+                lock.unlock();
             }
+        }
+        else{
+            System.out.println("*** read blocked");
             hasMessage = false;
-        } finally {
-            lock.unlock();
         }
         return message;
     }
 
-    public synchronized void write(String message) {
+    public void write(String message) {
 
-        while (hasMessage) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        try {
+            if (lock.tryLock(3, TimeUnit.SECONDS)) {
+                try {
+
+                    while (hasMessage) {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    hasMessage = true;
+                } finally {
+                    lock.unlock();
+                }
+            } else {
+                System.out.println("** Write blocked");
+                hasMessage = true;
             }
+        } catch (InterruptedException e){
+            throw new RuntimeException(e);
         }
-        hasMessage = true;
-        notifyAll();
         this.message = message;
     }
 }

@@ -28,7 +28,8 @@ public class QueryingData {
 
         Scanner sc = new Scanner(System.in);
         String artistId = sc.nextLine();
-        String query = "SELECT * FROM music.artists WHERE artist_id=%s".formatted(artistId);
+        int artistid = Integer.parseInt(artistId);
+        String query = "SELECT * FROM music.artists WHERE artist_id=%s".formatted(artistid);
 
         try (Connection connection = dataSource.getConnection(props.getProperty("user"), (System.getenv("MYSQL_PASS")));
              Statement statement = connection.createStatement();

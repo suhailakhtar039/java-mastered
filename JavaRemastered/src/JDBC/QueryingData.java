@@ -7,8 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.sql.*;
-import java.util.Locale;
 import java.util.Properties;
+import java.util.Scanner;
 
 public class QueryingData {
     public static void main(String[] args) {
@@ -26,7 +26,8 @@ public class QueryingData {
         dataSource.setPort(Integer.parseInt(props.getProperty("port")));
         dataSource.setDatabaseName(props.getProperty("databaseName"));
 
-        String albumName = "Tapestry";
+        Scanner sc = new Scanner(System.in);
+        String albumName = sc.nextLine();
         String query = "SELECT * FROM music.albumview WHERE album_name='%s'".formatted(albumName);
 
         try (Connection connection = dataSource.getConnection(props.getProperty("user"), (System.getenv("MYSQL_PASS")));
@@ -34,9 +35,6 @@ public class QueryingData {
         ) {
             ResultSet resultSet = statement.executeQuery(query);
             ResultSetMetaData metaData = resultSet.getMetaData();
-            for (int i = 1; i <= metaData.getColumnCount(); i++) {
-                System.out.printf("%d %s %s %n", i, metaData.getColumnName(i), metaData.getColumnTypeName(i));
-            }
             System.out.println("=========================");
 
             for(int i = 1; i<=metaData.getColumnCount(); i++){

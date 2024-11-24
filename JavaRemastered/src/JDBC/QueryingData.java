@@ -27,8 +27,8 @@ public class QueryingData {
         dataSource.setDatabaseName(props.getProperty("databaseName"));
 
         Scanner sc = new Scanner(System.in);
-        String albumName = sc.nextLine();
-        String query = "SELECT * FROM music.albumview WHERE album_name='%s'".formatted(albumName);
+        String artistId = sc.nextLine();
+        String query = "SELECT * FROM music.artists WHERE artist_id=%s".formatted(artistId);
 
         try (Connection connection = dataSource.getConnection(props.getProperty("user"), (System.getenv("MYSQL_PASS")));
              Statement statement = connection.createStatement();

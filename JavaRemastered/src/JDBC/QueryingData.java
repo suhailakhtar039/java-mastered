@@ -11,7 +11,7 @@ public class QueryingData {
 
         Properties props = new Properties();
         try{
-            props.load(Files.newInputStream(Path.of("music.properties"), StandardOpenOption.READ));
+            props.load(Files.newInputStream(Path.of("C:\\Users\\Suhail Akhtar\\OneDrive\\Desktop\\project\\Java remastered\\JavaRemastered\\src\\music.properties")));
 
         }catch (IOException e){
             throw new RuntimeException(e);

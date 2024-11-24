@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.sql.*;
+import java.util.Locale;
 import java.util.Properties;
 
 public class QueryingData {
@@ -38,8 +39,15 @@ public class QueryingData {
             }
             System.out.println("=========================");
 
+            for(int i = 1; i<=metaData.getColumnCount(); i++){
+                System.out.printf("%-15s", metaData.getColumnName(i).toUpperCase());
+            }
+            System.out.println();
             while (resultSet.next()) {
-                System.out.printf("%d %s %s %n", resultSet.getInt("track_number"), resultSet.getString("artist_name"), resultSet.getString("song_title"));
+                for(int i = 1; i<=metaData.getColumnCount(); i++){
+                    System.out.printf("%-15s", resultSet.getString(i));
+                }
+                System.out.println();
             }
 
             System.out.println("SUCCESS!");

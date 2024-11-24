@@ -7,17 +7,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 public class QueryingData {
     public static void main(String[] args) {
 
         Properties props = new Properties();
-        try{
+        try {
             props.load(Files.newInputStream(Path.of("C:\\Users\\Suhail Akhtar\\OneDrive\\Desktop\\project\\Java remastered\\JavaRemastered\\src\\music.properties")));
 
-        }catch (IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -26,9 +28,19 @@ public class QueryingData {
         dataSource.setPort(Integer.parseInt(props.getProperty("port")));
         dataSource.setDatabaseName(props.getProperty("databaseName"));
 
-        try(Connection connection = dataSource.getConnection(props.getProperty("user"),(System.getenv("MYSQL_PASS")))) {
+        String query = "SELECT * FROM music.artists";
+
+        try (Connection connection = dataSource.getConnection(props.getProperty("user"), (System.getenv("MYSQL_PASS")));
+             Statement statement = connection.createStatement();
+        ) {
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()){
+                System.out.printf("%d %s %n", resultSet.getInt(1), resultSet.getString("artist_name"));
+            }
+
             System.out.println("SUCCESS!");
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 

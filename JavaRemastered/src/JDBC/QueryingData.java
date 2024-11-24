@@ -17,7 +17,7 @@ public class QueryingData {
 
         Properties props = new Properties();
         try {
-            props.load(Files.newInputStream(Path.of("C:\\Users\\Suhail Akhtar\\OneDrive\\Desktop\\project\\Java remastered\\JavaRemastered\\src\\music.properties")));
+            props.load(Files.newInputStream(Path.of("C:\\Users\\Suhail Akhtar\\OneDrive\\Desktop\\project\\Java remastered\\JavaRemastered\\src\\music.properties"),StandardOpenOption.READ));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -28,7 +28,8 @@ public class QueryingData {
         dataSource.setPort(Integer.parseInt(props.getProperty("port")));
         dataSource.setDatabaseName(props.getProperty("databaseName"));
 
-        String query = "SELECT * FROM music.artists";
+        String albumName = "Tapestry";
+        String query = "SELECT * FROM music.albumview WHERE album_name='%s'".formatted(albumName);
 
         try (Connection connection = dataSource.getConnection(props.getProperty("user"), (System.getenv("MYSQL_PASS")));
              Statement statement = connection.createStatement();
@@ -36,7 +37,7 @@ public class QueryingData {
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()){
-                System.out.printf("%d %s %n", resultSet.getInt(1), resultSet.getString("artist_name"));
+                System.out.printf("%d %s %s %n", resultSet.getInt("track_number"), resultSet.getString("artist_name"), resultSet.getString("song_title"));
             }
 
             System.out.println("SUCCESS!");

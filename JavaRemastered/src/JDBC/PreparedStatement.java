@@ -18,9 +18,9 @@ public class PreparedStatement {
             throw new RuntimeException(e);
         }
 
-        try(Connection connection = dataSource.getConnection("devuser", System.getenv("MYSQL_PASS"))){
-
-        }catch (SQLException e){
+        try (Connection connection = dataSource.getConnection("devuser", System.getenv("MYSQL_PASS"))) {
+            String sql = "SELECT * FROM music.albumview WHERE artist_name = ?";
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

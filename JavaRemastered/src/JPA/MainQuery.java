@@ -13,7 +13,7 @@ public class MainQuery {
         ){
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-            artists = getArtistsJPQL(em, "");
+            artists = getArtistsJPQL(em, "%Stev%");
             artists.forEach(System.out::println);
             transaction.commit();
         }catch (Exception e){
@@ -22,8 +22,9 @@ public class MainQuery {
     }
 
     private static List<Artist> getArtistsJPQL(EntityManager em, String matchedValue){
-        String jpql = "SELECT a FROM Artist a";
+        String jpql = "SELECT a FROM Artist a WHERE a.artistName LIKE :partialName";
         TypedQuery<Artist> query = em.createQuery(jpql, Artist.class);
+        query.setParameter("partialName", matchedValue);
         return query.getResultList();
     }
 

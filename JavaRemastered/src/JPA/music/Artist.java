@@ -16,7 +16,7 @@ public class Artist {
     @Column(name = "artist_name")
     private String artistName;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "artist_id")
     private List<Album> albums = new ArrayList<>();
 
@@ -48,6 +48,10 @@ public class Artist {
         TreeSet<Album> set = new TreeSet<>(albums);
         albums.clear();
         albums.addAll(set);
+    }
+
+    public void addAlbum(String album){
+        albums.add(new Album(album));
     }
 
     @Override

@@ -1,14 +1,12 @@
 package JPA.music;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "albums")
 public class Album {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "album_id")
     private int albumId;
 
@@ -27,11 +25,11 @@ public class Album {
         this.albumName = albumName;
     }
 
-    public String getalbumName() {
+    public String getAlbumName() {
         return albumName;
     }
 
-    public void setalbumName(String albumName) {
+    public void setAlbumName(String albumName) {
         this.albumName = albumName;
     }
 

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "albums")
-public class Album {
+public class Album implements Comparable<Album> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "album_id")
@@ -39,5 +39,10 @@ public class Album {
                 "albumId=" + albumId +
                 ", albumName='" + albumName + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Album o) {
+        return this.getAlbumName().compareTo(o.getAlbumName());
     }
 }

@@ -1,4 +1,4 @@
-package JPA;
+package JPA.music;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

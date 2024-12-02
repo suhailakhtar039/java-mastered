@@ -17,6 +17,7 @@ public class Main {
             transaction.begin();
             Artist artist = entityManager.find(Artist.class, 203);
             System.out.println(artist);
+            entityManager.remove(artist);
             // entityManager.persist(new Artist("Muddy Water"));
             transaction.commit();
 

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 @Entity
 @Table(name = "artists")
@@ -41,6 +42,12 @@ public class Artist {
 
     public void setArtistName(String artistName) {
         this.artistName = artistName;
+    }
+
+    public void removeDuplicates(){
+        TreeSet<Album> set = new TreeSet<>(albums);
+        albums.clear();
+        albums.addAll(set);
     }
 
     @Override

@@ -15,7 +15,9 @@ public class Main {
 
             EntityTransaction transaction = entityManager.getTransaction();
             transaction.begin();
-            entityManager.persist(new Artist("Muddy Water"));
+            Artist artist = entityManager.find(Artist.class, 203);
+            System.out.println(artist);
+            // entityManager.persist(new Artist("Muddy Water"));
             transaction.commit();
 
         }catch(Exception e){

@@ -32,6 +32,8 @@ public class SimpleClient {
 
         } catch (IOException e) {
             System.out.println("Client error: " + e.getMessage());
+        } finally {
+            System.out.println("Client got disconnected");
         }
 
     }

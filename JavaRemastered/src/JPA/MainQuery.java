@@ -18,7 +18,11 @@ public class MainQuery {
             artists.forEach(System.out::println);
             getArtistsName(em, "%Stev%").forEach(System.out::println);
             getArtistsNameUsingTuple(em, "%Stev%").forEach(System.out::println);
-            getArtistsNameStream(em, "%Stev%").forEach(System.out::println);
+            Stream<Tuple> names = getArtistsNameStream(em, "%Stev%");
+            names.map(
+                    a -> new Artist(
+                            a.get(0, Integer.class),
+                            (String) a.get(1))).forEach(System.out::println);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();

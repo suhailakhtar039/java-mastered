@@ -4,6 +4,7 @@ import JPA.music.Artist;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class MainQuery {
     public static void main(String[] args) {
@@ -17,6 +18,7 @@ public class MainQuery {
             artists.forEach(System.out::println);
             getArtistsName(em, "%Stev%").forEach(System.out::println);
             getArtistsNameUsingTuple(em, "%Stev%").forEach(System.out::println);
+            getArtistsNameStream(em, "%Stev%").forEach(System.out::println);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,6 +44,13 @@ public class MainQuery {
         TypedQuery<Tuple> query = em.createQuery(jpql, Tuple.class);
         query.setParameter(1, matchedValue);
         return query.getResultList();
+    }
+
+    private static Stream<Tuple> getArtistsNameStream(EntityManager em, String matchedValue) {
+        String jpql = "SELECT a.artistId, a.artistName FROM Artist a WHERE a.artistName LIKE ?1";
+        TypedQuery<Tuple> query = em.createQuery(jpql, Tuple.class);
+        query.setParameter(1, matchedValue);
+        return query.getResultStream();
     }
 
 }

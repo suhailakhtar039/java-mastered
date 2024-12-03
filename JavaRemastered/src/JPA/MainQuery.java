@@ -39,7 +39,7 @@ public class MainQuery {
             artists = getArtistsNameJoinAlbumLike(em, "Greatest hits%");
             artists.forEach(System.out::println);
 
-            Stream<Artist> sartists = getArtistsNameCriteria(em, "");
+            Stream<Artist> sartists = getArtistsNameCriteria(em, "Bl%");
             TreeMap<String, Integer> map = sartists
                     .limit(10)
                     .collect(Collectors.toMap(
@@ -112,6 +112,7 @@ public class MainQuery {
         CriteriaQuery<Artist> criteriaQuery = builder.createQuery(Artist.class);
         Root<Artist> root = criteriaQuery.from(Artist.class);
         criteriaQuery.select(root);
+        criteriaQuery.where(builder.like(root.get("artistName"), matchedValue));
         criteriaQuery.orderBy(builder.asc((root.get("artistName"))));
         return em.createQuery(criteriaQuery).getResultStream();
     }

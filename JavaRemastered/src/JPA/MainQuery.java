@@ -2,8 +2,13 @@ package JPA;
 
 import JPA.music.Artist;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import java.util.List;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MainQuery {
@@ -33,6 +38,18 @@ public class MainQuery {
 
             artists = getArtistsNameJoinAlbumLike(em, "Greatest hits%");
             artists.forEach(System.out::println);
+
+            Stream<Artist> sartists = getArtistsNameCriteria(em, "");
+            TreeMap<String, Integer> map = sartists
+                    .limit(10)
+                    .collect(Collectors.toMap(
+                            Artist::getArtistName,
+                            a -> a.getAlbums().size(),
+                            Integer::sum,
+                            TreeMap::new
+                    ));
+
+            map.forEach((k,v)-> System.out.println(k + " : " + v));
 
             transaction.commit();
         } catch (Exception e) {
@@ -88,6 +105,14 @@ public class MainQuery {
         query.setParameter(1, matchedValue);
         query.setParameter(2, "%Best of%");
         return query.getResultList();
+    }
+
+    private static Stream<Artist> getArtistsNameCriteria(EntityManager em, String matchedValue) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Artist> criteriaQuery = builder.createQuery(Artist.class);
+        Root<Artist> root = criteriaQuery.from(Artist.class);
+        criteriaQuery.select(root);
+        return em.createQuery(criteriaQuery).getResultStream();
     }
 
 }

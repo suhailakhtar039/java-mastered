@@ -40,7 +40,8 @@ public class MainQuery {
             artists.forEach(System.out::println);
 
             Stream<Artist> sartists = getArtistsNameCriteria(em, "Bl%");
-            TreeMap<String, Integer> map = sartists
+            Stream<Artist> sartists1 = getArtistsSQL(em, "Bl%");
+            TreeMap<String, Integer> map = sartists1
                     .limit(10)
                     .collect(Collectors.toMap(
                             Artist::getArtistName,
@@ -116,6 +117,12 @@ public class MainQuery {
                 .where(builder.like(root.get("artistName"), matchedValue))
                 .orderBy(builder.asc((root.get("artistName"))));
         return em.createQuery(criteriaQuery).getResultStream();
+    }
+
+    private static Stream<Artist> getArtistsSQL(EntityManager em, String matchedValue){
+        Query query = em.createNativeQuery("SELECT * FROM music.artists WHERE artist_name like ?1", Artist.class);
+        query.setParameter(1, matchedValue);
+        return query.getResultStream();
     }
 
 }

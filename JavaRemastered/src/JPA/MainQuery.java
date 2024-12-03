@@ -49,7 +49,7 @@ public class MainQuery {
                             TreeMap::new
                     ));
 
-            map.forEach((k,v)-> System.out.println(k + " : " + v));
+            map.forEach((k, v) -> System.out.println(k + " : " + v));
 
             transaction.commit();
         } catch (Exception e) {
@@ -111,9 +111,10 @@ public class MainQuery {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Artist> criteriaQuery = builder.createQuery(Artist.class);
         Root<Artist> root = criteriaQuery.from(Artist.class);
-        criteriaQuery.select(root);
-        criteriaQuery.where(builder.like(root.get("artistName"), matchedValue));
-        criteriaQuery.orderBy(builder.asc((root.get("artistName"))));
+        criteriaQuery
+                .select(root)
+                .where(builder.like(root.get("artistName"), matchedValue))
+                .orderBy(builder.asc((root.get("artistName"))));
         return em.createQuery(criteriaQuery).getResultStream();
     }
 

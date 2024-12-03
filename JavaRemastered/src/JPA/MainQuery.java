@@ -19,15 +19,17 @@ public class MainQuery {
             getArtistsName(em, "%Stev%").forEach(System.out::println);
             getArtistsNameUsingTuple(em, "%Stev%").forEach(System.out::println);
             Stream<Tuple> names = getArtistsNameStream(em, "%Stev%");
-            names.map(
-                    a -> new Artist(
-                            a.get(0, Integer.class),
-                            (String) a.get(1))).forEach(System.out::println);
-            Stream<Tuple> artistName = getArtistsNameUsingAlias(em, "%Stev%");
-            artistName.map(
-                    a -> new Artist(
-                            a.get("id", Integer.class),
-                            (String) a.get("name"))).forEach(System.out::println);
+            // names.map(
+            //         a -> new Artist(
+            //                 a.get(0, Integer.class),
+            //                 (String) a.get(1))).forEach(System.out::println);
+            // Stream<Tuple> artistName = getArtistsNameUsingAlias(em, "%Stev%");
+            // artistName.map(
+            //         a -> new Artist(
+            //                 a.get("id", Integer.class),
+            //                 (String) a.get("name"))).forEach(System.out::println);
+            artists = getArtistsNameJoinAlbum(em, "%Greatest hits%");
+            System.out.println(artists);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,6 +69,13 @@ public class MainQuery {
         TypedQuery<Tuple> query = em.createQuery(jpql, Tuple.class);
         query.setParameter(1, matchedValue);
         return query.getResultStream();
+    }
+
+    private static List<Artist> getArtistsNameJoinAlbum(EntityManager em, String matchedValue) {
+        String jpql = "SELECT a FROM Artist a JOIN albums album WHERE album.albumName LIKE ?1";
+        TypedQuery<Artist> query = em.createQuery(jpql, Artist.class);
+        query.setParameter(1, matchedValue);
+        return query.getResultList();
     }
 
 }

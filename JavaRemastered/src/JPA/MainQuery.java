@@ -29,7 +29,11 @@ public class MainQuery {
             //                 a.get("id", Integer.class),
             //                 (String) a.get("name"))).forEach(System.out::println);
             artists = getArtistsNameJoinAlbum(em, "%Greatest hits%");
-            System.out.println(artists);
+            artists.forEach(System.out::println);
+
+            artists = getArtistsNameJoinAlbumLike(em, "Greatest hits%");
+            artists.forEach(System.out::println);
+
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,6 +79,14 @@ public class MainQuery {
         String jpql = "SELECT a FROM Artist a JOIN albums album WHERE album.albumName LIKE ?1";
         TypedQuery<Artist> query = em.createQuery(jpql, Artist.class);
         query.setParameter(1, matchedValue);
+        return query.getResultList();
+    }
+
+    private static List<Artist> getArtistsNameJoinAlbumLike(EntityManager em, String matchedValue) {
+        String jpql = "SELECT a FROM Artist a JOIN albums album WHERE album.albumName LIKE ?1 OR album.albumName LIKE ?2";
+        TypedQuery<Artist> query = em.createQuery(jpql, Artist.class);
+        query.setParameter(1, matchedValue);
+        query.setParameter(2, "%Best of%");
         return query.getResultList();
     }
 

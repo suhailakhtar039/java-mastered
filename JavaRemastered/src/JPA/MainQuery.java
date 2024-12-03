@@ -112,6 +112,7 @@ public class MainQuery {
         CriteriaQuery<Artist> criteriaQuery = builder.createQuery(Artist.class);
         Root<Artist> root = criteriaQuery.from(Artist.class);
         criteriaQuery.select(root);
+        criteriaQuery.orderBy(builder.asc((root.get("artistName"))));
         return em.createQuery(criteriaQuery).getResultStream();
     }
 

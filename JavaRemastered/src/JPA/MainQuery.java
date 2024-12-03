@@ -16,6 +16,7 @@ public class MainQuery {
             artists = getArtistsJPQL(em, "%Stev%");
             artists.forEach(System.out::println);
             getArtistsName(em, "%Stev%").forEach(System.out::println);
+            getArtistsNameUsingTuple(em, "%Stev%").forEach(System.out::println);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,6 +33,13 @@ public class MainQuery {
     private static List<String> getArtistsName(EntityManager em, String matchedValue) {
         String jpql = "SELECT a.artistName FROM Artist a WHERE a.artistName LIKE ?1";
         TypedQuery<String> query = em.createQuery(jpql, String.class);
+        query.setParameter(1, matchedValue);
+        return query.getResultList();
+    }
+
+    private static List<Tuple> getArtistsNameUsingTuple(EntityManager em, String matchedValue) {
+        String jpql = "SELECT a.artistId, a.artistName FROM Artist a WHERE a.artistName LIKE ?1";
+        TypedQuery<Tuple> query = em.createQuery(jpql, Tuple.class);
         query.setParameter(1, matchedValue);
         return query.getResultList();
     }

@@ -23,6 +23,11 @@ public class MainQuery {
                     a -> new Artist(
                             a.get(0, Integer.class),
                             (String) a.get(1))).forEach(System.out::println);
+            Stream<Tuple> artistName = getArtistsNameUsingAlias(em, "%Stev%");
+            artistName.map(
+                    a -> new Artist(
+                            a.get("id", Integer.class),
+                            (String) a.get("name"))).forEach(System.out::println);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,6 +57,13 @@ public class MainQuery {
 
     private static Stream<Tuple> getArtistsNameStream(EntityManager em, String matchedValue) {
         String jpql = "SELECT a.artistId, a.artistName FROM Artist a WHERE a.artistName LIKE ?1";
+        TypedQuery<Tuple> query = em.createQuery(jpql, Tuple.class);
+        query.setParameter(1, matchedValue);
+        return query.getResultStream();
+    }
+
+    private static Stream<Tuple> getArtistsNameUsingAlias(EntityManager em, String matchedValue) {
+        String jpql = "SELECT a.artistId id, a.artistName as name FROM Artist a WHERE a.artistName LIKE ?1";
         TypedQuery<Tuple> query = em.createQuery(jpql, Tuple.class);
         query.setParameter(1, matchedValue);
         return query.getResultStream();

@@ -15,6 +15,9 @@ public class Main {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         doOperation("Print: ", buffer, b-> System.out.print(b + " "));
         doOperation("Write: ", buffer, b->b.put("This is a test".getBytes()));
+        doOperation("Flip (From write to read)", buffer, ByteBuffer::flip);
+        doOperation("Read and print value ", buffer, printBuffer);
+
     }
 
     private static void doOperation(String op, ByteBuffer buffer, Consumer<ByteBuffer> c) {

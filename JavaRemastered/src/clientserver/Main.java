@@ -13,13 +13,14 @@ public class Main {
         };
 
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-        doOperation();
+        doOperation("Print: ", buffer, b-> System.out.print(b + " "));
+        doOperation("Write: ", buffer, b->b.put("This is a test".getBytes()));
     }
 
     private static void doOperation(String op, ByteBuffer buffer, Consumer<ByteBuffer> c) {
         System.out.printf("%-30s", op);
         c.accept(buffer);
-        System.out.printf("Capacity = %d, Limit = %d, Position = %d, Remaining = %d%d",
+        System.out.printf("Capacity = %d, Limit = %d, Position = %d, Remaining = %d%n",
                 buffer.capacity(),
                 buffer.limit(),
                 buffer.position(),

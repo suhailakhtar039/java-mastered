@@ -17,7 +17,7 @@ public class Main {
         doOperation("Write: ", buffer, b->b.put("This is a test".getBytes()));
         doOperation("Flip (From write to read)", buffer, ByteBuffer::flip);
         doOperation("Read and print value ", buffer, printBuffer);
-
+        doOperation("Flip (From read to write)", buffer, ByteBuffer::flip);
     }
 
     private static void doOperation(String op, ByteBuffer buffer, Consumer<ByteBuffer> c) {

@@ -14,6 +14,7 @@ public class URIBasics {
             URI demo = new URI("http://user:pw@store.com:5000/products/phones?os=android#realme");
             print(demo);
             URL url = demo.toURL();
+            printURL(url);
             System.out.println(url);
         } catch (URISyntaxException | MalformedURLException e) {
             throw new RuntimeException(e);
@@ -45,6 +46,27 @@ public class URIBasics {
                 uri.getPath(),
                 uri.getQuery(),
                 uri.getFragment()
+        );
+    }
+
+    private static void printURL(URL url) {
+        System.out.printf(
+                """
+                       ------------------------------------
+                       Authority: %s
+                        User info: %s
+                        Host: %s
+                        Port: %d
+                        Path: %s
+                        Query: %s
+                        ------------------------------------
+                        """,
+                url.getAuthority(),
+                url.getUserInfo(),
+                url.getHost(),
+                url.getPort(),
+                url.getPath(),
+                url.getQuery()
         );
     }
 

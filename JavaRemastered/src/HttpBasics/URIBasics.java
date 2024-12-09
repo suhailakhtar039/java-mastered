@@ -8,22 +8,22 @@ public class URIBasics {
         print(timsSite);
     }
 
-    private static void print(URI uri){
+    private static void print(URI uri) {
         System.out.printf(
                 """
-                ----------------------------------------
-                [scheme:]scheme-specific-part[#fragment]
-                ----------------------------------------
-                Scheme: %s
-                Scheme-specific part: %s
-                    Authority: %s
-                        User info: %s
-                        Host: %s
-                        Port: %d
-                        Path: %s
-                        Query: %s
-                Fragment: %s
-                """,
+                        ----------------------------------------
+                        [scheme:]scheme-specific-part[#fragment]
+                        ----------------------------------------
+                        Scheme: %s
+                        Scheme-specific part: %s
+                            Authority: %s
+                                User info: %s
+                                Host: %s
+                                Port: %d
+                                Path: %s
+                                Query: %s
+                        Fragment: %s
+                        """,
                 uri.getScheme(),
                 uri.getSchemeSpecificPart(),
                 uri.getAuthority(),

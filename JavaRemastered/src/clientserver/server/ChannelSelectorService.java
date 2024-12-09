@@ -33,7 +33,9 @@ public class ChannelSelectorService {
                         SocketChannel clientChannel = serverChannel.accept();
                         System.out.println("Client connected: " + clientChannel.getRemoteAddress());
                         clientChannel.configureBlocking(false);
-
+                        clientChannel.register(selector, SelectionKey.OP_READ);
+                    } else if (key.isReadable()) {
+                        echoData(key);
                     }
 
                 }
@@ -45,18 +47,18 @@ public class ChannelSelectorService {
         }
     }
 
-    private static void echoData(SelectionKey key) throws IOException{
+    private static void echoData(SelectionKey key) throws IOException {
         SocketChannel clientChannel = (SocketChannel) key.channel();
         ByteBuffer buffer = ByteBuffer.allocate(1024);
 
         int bytesRead = clientChannel.read(buffer);
-        if(bytesRead > 0){
+        if (bytesRead > 0) {
             buffer.flip();
             byte[] data = new byte[buffer.remaining()];
             buffer.get(data);
             String message = "Echo: " + new String(data);
             clientChannel.write(ByteBuffer.wrap(message.getBytes()));
-        }else if(bytesRead == -1){
+        } else if (bytesRead == -1) {
             System.out.println("Client disconnected: " + clientChannel.getRemoteAddress());
             key.cancel();
             clientChannel.close();

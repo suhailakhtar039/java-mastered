@@ -1,7 +1,9 @@
 package HttpBasics;
 
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 public class URIBasics {
     public static void main(String[] args) {
@@ -11,7 +13,9 @@ public class URIBasics {
         try {
             URI demo = new URI("http://user:pw@store.com:5000/products/phones?os=android#realme");
             print(demo);
-        } catch (URISyntaxException e) {
+            URL url = demo.toURL();
+            System.out.println(url);
+        } catch (URISyntaxException | MalformedURLException e) {
             throw new RuntimeException(e);
         }
     }

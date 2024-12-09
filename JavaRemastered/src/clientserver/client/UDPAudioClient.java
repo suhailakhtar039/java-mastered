@@ -1,7 +1,9 @@
 package clientserver.client;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 public class UDPAudioClient {
 
@@ -10,6 +12,10 @@ public class UDPAudioClient {
 
     public static void main(String[] args) {
         try (DatagramSocket clientSocket = new DatagramSocket()) {
+
+            byte[] audioFileName = "AudioClip.wav".getBytes();
+            DatagramPacket packet = new DatagramPacket(audioFileName, audioFileName.length, InetAddress.getLocalHost(), SERVER_PORT);
+            clientSocket.send(packet);
 
         } catch (IOException e) {
             System.out.println(e.getMessage());

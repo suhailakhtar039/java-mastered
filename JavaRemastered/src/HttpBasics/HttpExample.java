@@ -12,7 +12,7 @@ import static java.net.HttpURLConnection.HTTP_OK;
 public class HttpExample {
     public static void main(String[] args) {
         try {
-
+            
             URL url = new URL("http://example.com");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -21,8 +21,10 @@ public class HttpExample {
             connection.setReadTimeout(30000);
             int responseCode = connection.getResponseCode();
             System.out.printf("Response code: %d%n", responseCode);
+
             if(responseCode != HTTP_OK){
                 System.out.println("Error reading web page " + url);
+                System.out.printf("Error: %s%n", connection.getResponseMessage());
                 return;
             }
             printContents(connection.getInputStream());
@@ -31,6 +33,8 @@ public class HttpExample {
             throw new RuntimeException(e);
         }
     }
+
+
     private static void printContents(InputStream is) {
 
         try (BufferedReader inputStream = new BufferedReader(

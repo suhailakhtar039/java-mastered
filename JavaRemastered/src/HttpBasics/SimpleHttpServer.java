@@ -12,6 +12,7 @@ import static java.net.HttpURLConnection.HTTP_OK;
 public class SimpleHttpServer {
 
     private static long visitorCounter = 0;
+
     public static void main(String[] args) {
         try {
 
@@ -27,9 +28,12 @@ public class SimpleHttpServer {
                 Map<String, String> parameters = parseParameters(data);
                 System.out.println(parameters);
 
-                if(requestMethod.equals("POST")){
+                if (requestMethod.equals("POST")) {
                     visitorCounter++;
                 }
+
+                String firstName = parameters.get("first");
+                String lastName = parameters.get("last");
                 String response =
                         """
                                 <html>
@@ -37,11 +41,17 @@ public class SimpleHttpServer {
                                         <h1>Hello World from my HTTP Server</h1>
                                         <p>Number of visitors who signed up = %d</p>
                                         <form method="post">
+                                            <label for="first">First Name:</label>
+                                            <input type="text" id="first" name="first" value="%s"/>
+                                            <br/>
+                                            <label for="last">Last Name:</label>
+                                            <input type="text" id="last" name="last" value="%s"/>
+                                            <br/>
                                             <input type="submit" value="submit"/>
                                         </form>
                                     </body>
                                 </html>
-                                """.formatted(visitorCounter);
+                                """.formatted(visitorCounter, firstName == null ? "" : firstName, lastName == null ? "" : lastName);
 
                 byte[] bytes = response.getBytes();
                 exchange.sendResponseHeaders(HTTP_OK, bytes.length);
@@ -59,12 +69,12 @@ public class SimpleHttpServer {
 
     }
 
-    private static Map<String, String> parseParameters(String requestBody){
+    private static Map<String, String> parseParameters(String requestBody) {
         Map<String, String> parameters = new HashMap<>();
         String[] pairs = requestBody.split("&");
-        for(String pair: pairs){
+        for (String pair : pairs) {
             String[] keyValue = pair.split("=");
-            if(keyValue.length == 2){
+            if (keyValue.length == 2) {
                 parameters.put(keyValue[0], keyValue[1]);
             }
         }

@@ -4,6 +4,8 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 
@@ -52,4 +54,13 @@ public class SimpleHttpServer {
         }
 
     }
+
+    private static Map<String, String> parseParameters(String requestBody){
+        Map<String, String> parameters = new HashMap<>();
+        String[] pairs = requestBody.split("&");
+        for(String pair: pairs){
+            String[] keyValue = pair.split("=");
+        }
+    }
+
 }

@@ -19,6 +19,8 @@ public class SimpleHttpServer {
                 String requestMethod = exchange.getRequestMethod();
                 System.out.println("Request Method: " + requestMethod);
 
+                String data = new String(exchange.getRequestBody().readAllBytes());
+                System.out.println("Body data: " + data);
                 if(requestMethod.equals("POST")){
                     visitorCounter++;
                 }

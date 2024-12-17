@@ -23,6 +23,10 @@ public class SimpleHttpServer {
 
                 String data = new String(exchange.getRequestBody().readAllBytes());
                 System.out.println("Body data: " + data);
+
+                Map<String, String> parameters = parseParameters(data);
+                System.out.println(parameters);
+
                 if(requestMethod.equals("POST")){
                     visitorCounter++;
                 }

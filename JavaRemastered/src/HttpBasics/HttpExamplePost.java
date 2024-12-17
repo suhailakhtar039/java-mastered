@@ -1,9 +1,6 @@
 package HttpBasics;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -26,6 +23,11 @@ public class HttpExamplePost {
             String parameters = "first=Joe&last=Smith";
             int length = parameters.getBytes().length;
             connection.setRequestProperty("Content-Length", String.valueOf(length));
+
+            DataOutputStream output = new DataOutputStream(connection.getOutputStream());
+            output.writeBytes(parameters);
+            output.flush();
+            output.close();
 
             int responseCode = connection.getResponseCode();
             System.out.printf("Response code: %d%n", responseCode);

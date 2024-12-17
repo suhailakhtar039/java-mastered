@@ -60,7 +60,11 @@ public class SimpleHttpServer {
         String[] pairs = requestBody.split("&");
         for(String pair: pairs){
             String[] keyValue = pair.split("=");
+            if(keyValue.length == 2){
+                parameters.put(keyValue[0], keyValue[1]);
+            }
         }
+        return parameters;
     }
 
 }

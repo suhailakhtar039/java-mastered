@@ -9,6 +9,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 
@@ -25,9 +27,16 @@ public class HttpClientGet {
                     .uri(url.toURI())
                     .header("User-Agent", "Chrome")
                     .headers("Accept", "application/json", "Accept", "text/html")
+                    .timeout(Duration.ofSeconds(30))
                     .build();
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(response.statusCode() != HTTP_OK){
+                System.out.println("Error reading web page " + url);
+                return;
+            }
 
             int responseCode = connection.getResponseCode();
             System.out.printf("Response code: %d%n", responseCode);
@@ -39,7 +48,7 @@ public class HttpClientGet {
             }
             printContents(connection.getInputStream());
 
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

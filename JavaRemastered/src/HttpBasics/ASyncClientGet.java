@@ -33,16 +33,14 @@ public class ASyncClientGet {
             HttpResponse<Stream<String>> response;
             CompletableFuture<HttpResponse<Stream<String>>> responseFuture = client.sendAsync(request, HttpResponse.BodyHandlers.ofLines());
 
-            while(!responseFuture.isDone()){
+            while (!responseFuture.isDone()) {
                 System.out.print(".");
                 TimeUnit.SECONDS.sleep(1);
             }
             System.out.println();
-            try {
-                response = responseFuture.get();
-            } catch (ExecutionException e) {
-                throw new RuntimeException(e);
-            }
+
+            response = responseFuture.join();
+
             handleResponse(response);
 
         } catch (IOException | URISyntaxException | InterruptedException e) {

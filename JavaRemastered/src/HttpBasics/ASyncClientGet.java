@@ -27,12 +27,9 @@ public class ASyncClientGet {
                     .timeout(Duration.ofSeconds(30))
                     .build();
 
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() != HTTP_OK) {
-                System.out.println("Error reading web page " + url);
-                return;
-            }
-            System.out.println(response.body());
+            HttpResponse<Stream<String>> response = client.send(request, HttpResponse.BodyHandlers.ofLines());
+            System.out.println();
+            handleResponse(response);
 
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -41,7 +38,10 @@ public class ASyncClientGet {
 
     private static void handleResponse(HttpResponse<Stream<String>> response) {
         if (response.statusCode() == HTTP_OK) {
-
+            response.body()
+                    .filter(s -> s.contains("<h1>"))
+                    .map(s -> s.replaceAll("<[^>]*>", "").strip())
+                    .forEach(System.out::println);
         } else {
             System.out.println("Error reading response: " + response.uri());
         }

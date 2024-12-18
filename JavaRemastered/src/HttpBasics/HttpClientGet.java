@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 
@@ -18,6 +20,10 @@ public class HttpClientGet {
             URL url = new URL("http://localhost:8080");
             HttpClient client = HttpClient.newHttpClient();
 
+            HttpRequest request = HttpRequest.newBuilder()
+                    .GET()
+                    .uri(url.toURI())
+                    .build();
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("User-Agent", "Chrome");
@@ -33,7 +39,7 @@ public class HttpClientGet {
             }
             printContents(connection.getInputStream());
 
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }

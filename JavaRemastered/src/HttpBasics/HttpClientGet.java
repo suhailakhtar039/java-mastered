@@ -30,33 +30,14 @@ public class HttpClientGet {
                     .timeout(Duration.ofSeconds(30))
                     .build();
 
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if(response.statusCode() != HTTP_OK){
                 System.out.println("Error reading web page " + url);
                 return;
             }
-
-            printContents(connection.getInputStream());
-
+            System.out.println(response.body());;
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-
-    private static void printContents(InputStream is) {
-
-        try (BufferedReader inputStream = new BufferedReader(
-                new InputStreamReader(is))
-        ) {
-            String line;
-            while ((line = inputStream.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
         }
     }
 }

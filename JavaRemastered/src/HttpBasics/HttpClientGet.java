@@ -38,14 +38,6 @@ public class HttpClientGet {
                 return;
             }
 
-            int responseCode = connection.getResponseCode();
-            System.out.printf("Response code: %d%n", responseCode);
-
-            if (responseCode != HTTP_OK) {
-                System.out.println("Error reading web page " + url);
-                System.out.printf("Error: %s%n", connection.getResponseMessage());
-                return;
-            }
             printContents(connection.getInputStream());
 
         } catch (IOException | URISyntaxException | InterruptedException e) {

@@ -31,11 +31,12 @@ public class HttpClientGet {
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if(response.statusCode() != HTTP_OK){
+            if (response.statusCode() != HTTP_OK) {
                 System.out.println("Error reading web page " + url);
                 return;
             }
-            System.out.println(response.body());;
+            System.out.println(response.body());
+
         } catch (IOException | URISyntaxException | InterruptedException e) {
             throw new RuntimeException(e);
         }

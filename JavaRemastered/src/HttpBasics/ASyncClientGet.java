@@ -7,6 +7,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.stream.Stream;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 
@@ -37,4 +38,13 @@ public class ASyncClientGet {
             throw new RuntimeException(e);
         }
     }
+
+    private static void handleResponse(HttpResponse<Stream<String>> response) {
+        if (response.statusCode() == HTTP_OK) {
+
+        } else {
+            System.out.println("Error reading response: " + response.uri());
+        }
+    }
+
 }

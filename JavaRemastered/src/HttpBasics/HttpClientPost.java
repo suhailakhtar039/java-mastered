@@ -22,11 +22,9 @@ public class HttpClientPost {
                     .build();
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .POST(HttpRequest.BodyPublishers.ofString("first=suhail&last=akkhtar"))
+                    .POST(HttpRequest.BodyPublishers.ofString("first=suhail&last=akhtar"))
                     .uri(URI.create("http://localhost:8080"))
-                    .header("User-Agent", "Chrome")
-                    .headers("Accept", "application/json", "Accept", "text/html")
-                    .timeout(Duration.ofSeconds(30))
+                    .header("Content-Type","application/x-www-form-urlencoded")
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

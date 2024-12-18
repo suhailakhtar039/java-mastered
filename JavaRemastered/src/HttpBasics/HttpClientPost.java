@@ -16,7 +16,10 @@ public class HttpClientPost {
 
             // URL url = new URL("http://example.com");
             URL url = new URL("http://localhost:8080");
-            HttpClient client = HttpClient.newHttpClient();
+            HttpClient client = HttpClient.newBuilder()
+                    .connectTimeout(Duration.ofMinutes(1))
+                    .version(HttpClient.Version.HTTP_1_1)
+                    .build();
 
             HttpRequest request = HttpRequest.newBuilder()
                     .GET()

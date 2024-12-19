@@ -40,7 +40,8 @@ public class SimpleWebSocketServer extends WebSocketServer {
 
     @Override
     public void onMessage(WebSocket webSocket, String s) {
-        System.out.println("Message received " + webSocket.getRemoteSocketAddress());
+        String chatName = map.get(webSocket.getRemoteSocketAddress().toString());
+        broadcastAllButSender(webSocket, "%s: %s".formatted(chatName, s));
     }
 
     private void broadcastAllButSender(WebSocket webSocket, String message){

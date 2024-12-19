@@ -30,7 +30,8 @@ public class SimpleWebSocketServer extends WebSocketServer {
         String name = resource.split("=")[1];
         map.put(webSocket.getRemoteSocketAddress().toString(), name);
         System.out.println(map.values());
-        System.out.println("Server opened " + webSocket.getRemoteSocketAddress());
+        System.out.println("Connection opened " + webSocket.getRemoteSocketAddress());
+        broadcastAllButSender(webSocket, "%s joined".formatted(name));
     }
 
     @Override
@@ -44,7 +45,7 @@ public class SimpleWebSocketServer extends WebSocketServer {
         broadcastAllButSender(webSocket, "%s: %s".formatted(chatName, s));
     }
 
-    private void broadcastAllButSender(WebSocket webSocket, String message){
+    private void broadcastAllButSender(WebSocket webSocket, String message) {
         ArrayList<WebSocket> connections = new ArrayList<>(getConnections());
         connections.remove(webSocket);
         broadcast(message, connections);

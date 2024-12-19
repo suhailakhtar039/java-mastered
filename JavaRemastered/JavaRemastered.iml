@@ -10,5 +10,6 @@
     <orderEntry type="library" name="mysql-connector-j-9.1.0" level="project" />
     <orderEntry type="library" name="hibernate.orm.core" level="project" />
     <orderEntry type="library" name="jakarta.persistence.api" level="project" />
+    <orderEntry type="library" name="java.websocket.Java.WebSocket" level="project" />
   </component>
 </module>

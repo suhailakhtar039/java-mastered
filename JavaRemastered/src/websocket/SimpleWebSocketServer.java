@@ -21,26 +21,26 @@ public class SimpleWebSocketServer extends WebSocketServer {
 
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
-
+        System.out.println("Server opened " + webSocket.getRemoteSocketAddress());
     }
 
     @Override
     public void onClose(WebSocket webSocket, int i, String s, boolean b) {
-
+        System.out.println("Server closed " + webSocket.getRemoteSocketAddress());
     }
 
     @Override
     public void onMessage(WebSocket webSocket, String s) {
-
+        System.out.println("Message received " + webSocket.getRemoteSocketAddress());
     }
 
     @Override
     public void onError(WebSocket webSocket, Exception e) {
-
+        System.out.println("Error for " + webSocket.getRemoteSocketAddress());
     }
 
     @Override
     public void onStart() {
-
+        System.out.println("Server listening on port " + getPort());
     }
 }

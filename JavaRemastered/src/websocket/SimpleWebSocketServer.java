@@ -5,10 +5,14 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SimpleWebSocketServer extends WebSocketServer {
 
     public static final int SERVER_PORT = 8080;
+
+    Map<String, String> map = new HashMap<>();
 
     public SimpleWebSocketServer() {
         super(new InetSocketAddress(SERVER_PORT));
@@ -21,6 +25,10 @@ public class SimpleWebSocketServer extends WebSocketServer {
 
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
+        String resource = webSocket.getResourceDescriptor();
+        String name = resource.split("=")[1];
+        map.put(webSocket.getRemoteSocketAddress().toString(), name);
+        System.out.println(map.values());
         System.out.println("Server opened " + webSocket.getRemoteSocketAddress());
     }
 

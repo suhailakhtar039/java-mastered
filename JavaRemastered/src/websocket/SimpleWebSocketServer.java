@@ -14,6 +14,11 @@ public class SimpleWebSocketServer extends WebSocketServer {
         super(new InetSocketAddress(SERVER_PORT));
     }
 
+    public static void main(String[] args) {
+        SimpleWebSocketServer server = new SimpleWebSocketServer();
+        server.start();
+    }
+
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
 

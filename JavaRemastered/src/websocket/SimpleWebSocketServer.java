@@ -5,6 +5,7 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +41,12 @@ public class SimpleWebSocketServer extends WebSocketServer {
     @Override
     public void onMessage(WebSocket webSocket, String s) {
         System.out.println("Message received " + webSocket.getRemoteSocketAddress());
+    }
+
+    private void broadcastAllButSender(WebSocket webSocket, String message){
+        ArrayList<WebSocket> connections = new ArrayList<>(getConnections());
+        connections.remove(webSocket);
+        broadcast(message, connections);
     }
 
     @Override

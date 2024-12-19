@@ -4,7 +4,15 @@ import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import java.net.InetSocketAddress;
+
 public class SimpleWebSocketServer extends WebSocketServer {
+
+    public static final int SERVER_PORT = 8080;
+
+    public SimpleWebSocketServer() {
+        super(new InetSocketAddress(SERVER_PORT));
+    }
 
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
